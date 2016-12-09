@@ -72,7 +72,7 @@ def main(args):
                     if mb % 100 == 0:
                         Xtest, Ytest = next(validation_generator)
                         loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
-                        print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss   accuracy))
+                        print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
 
 if __name__ == "__main__":
     import argparse
