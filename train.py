@@ -37,8 +37,8 @@ def main():
         samples_per_epoch=512,
         nb_epoch=30,
         validation_data=validation_generator,
-        nb_val_samples=117)
-    net.save_weights('first_try.h5')
+        nb_val_samples=98)
+    net.save_weights('corpped.h5')
 
 
 if __name__ == '__main__':
