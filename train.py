@@ -60,23 +60,23 @@ def main(args):
             checkpoint = 'models/latest'.format(clock[0])
             if clock[0] % 5 == 0:
                 checkpoint = 'models/epoch-{}.h5'.format(clock[0])
-                print("checkpoint: {}".format(checkpoint))
-                net.save_weights(checkpoint)
-                clock[1] = 0
-                clock[0] += 1
+            print("checkpoint: {}".format(checkpoint))
+            net.save_weights(checkpoint)
+            clock[1] = 0
+            clock[0] += 1
 
-                epoch, mb = clock
-                if epoch > 10:
-                    break
+        epoch, mb = clock
+        if epoch > 10:
+            break
 
-                Xtrain, Ytrain = next(train_generator)
-                loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
-                log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
+        Xtrain, Ytrain = next(train_ds)
+        loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
+        log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
 
-                if mb % 100 == 0:
-                    Xtest, Ytest = next(validation_generator)
-                    loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
-                    print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
+        if mb % 100 == 0:
+            Xtest, Ytest = next(test_ds)
+            loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
+            print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
 
 if __name__ == "__main__":
     import argparse
