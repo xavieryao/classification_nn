@@ -23,6 +23,7 @@ def get_model():
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
     model.add(Dense(4))
+    model.add(Dropout(0.3))
     model.add(Activation('softmax'))
 
     model.compile(loss='categorical_crossentropy',
