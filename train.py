@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import model
+import time
 from keras.preprocessing.image import ImageDataGenerator
 
 def get_log_limited(interval=1):
@@ -71,7 +72,7 @@ def main(args):
                 Xtrain, Ytrain = next(train_generator)
                 loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
                 log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
-                
+
                 if mb % 100 == 0:
                     Xtest, Ytest = next(validation_generator)
                     loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
