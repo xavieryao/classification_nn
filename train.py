@@ -63,16 +63,19 @@ def main(args):
                 net.save_weights(checkpoint)
                 clock[1] = 0
                 clock[0] += 1
+
                 epoch, mb = clock
                 if epoch > 10:
                     break
-                    Xtrain, Ytrain = next(train_generator)
-                    loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
-                    log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
-                    if mb % 100 == 0:
-                        Xtest, Ytest = next(validation_generator)
-                        loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
-                        print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
+
+                Xtrain, Ytrain = next(train_generator)
+                loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
+                log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
+                
+                if mb % 100 == 0:
+                    Xtest, Ytest = next(validation_generator)
+                    loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
+                    print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
 
 if __name__ == "__main__":
     import argparse
