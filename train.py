@@ -3,7 +3,18 @@
 import model
 from keras.preprocessing.image import ImageDataGenerator
 
-def main():
+def get_log_limited(interval=1):
+    last = 0
+    def log(s):
+        nonlocal last
+        now = time.time()
+        if now - last < interval:
+            return
+        print(s)
+        last = now
+    return log
+
+def main(args):
     # this is the augmentation configuration we will use for training
     train_datagen = ImageDataGenerator(
             rescale=1./255,
@@ -32,14 +43,40 @@ def main():
             class_mode='categorical')
 
     net = model.get_model()
-    net.fit_generator(
-        train_generator,
-        samples_per_epoch=512,
-        nb_epoch=30,
-        validation_data=validation_generator,
-        nb_val_samples=98)
-    net.save_weights('corpped.h5')
 
+    if args.load_model:
+        print("loading weights from {}".format(args.load_model))
+        net.load_weights(args.load_model)
 
-if __name__ == '__main__':
-    main()
+    net.save_weights("models/start.hdf5")
+
+    print("training starts")
+    log = get_log_limited(interval=1)
+    clock = [0, 0]
+    while True:
+        clock[1] += 1
+        if clock[1] > 500:
+            checkpoint = 'models/latest'.format(clock[0])
+            if clock[0] % 5 == 0:
+                checkpoint = 'models/epoch-{}.h5'.format(clock[0])
+                print("checkpoint: {}".format(checkpoint))
+                net.save_weights(checkpoint)
+                clock[1] = 0
+                clock[0] += 1
+                epoch, mb = clock
+                if epoch > 10:
+                    break
+                    Xtrain, Ytrain = next(train_generator)
+                    loss, accuracy = net.train_on_batch(Xtrain, Ytrain)
+                    log("clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss, accuracy))
+                    if mb % 100 == 0:
+                        Xtest, Ytest = next(validation_generator)
+                        loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
+                        print("TEST: clock: {}:{}, loss: {:.2f}, accuracy: {:.2f}".format(*clock, loss   accuracy))
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', "--load-model", default=None)
+    args = parser.parse_args()
+    main(args)
