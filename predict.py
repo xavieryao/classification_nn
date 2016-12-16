@@ -22,4 +22,4 @@ if __name__ == '__main__':
     parser.add_argument('-p', "--picture")
     args = parser.parse_args()
     clz = classify(args.picture)
-    print("Belongs to {}".format{class_map[clz]})
+    print("Belongs to {}".format(class_map[clz])
