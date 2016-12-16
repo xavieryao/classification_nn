@@ -40,7 +40,7 @@ def main(args):
     validation_generator = test_datagen.flow_from_directory(
             'data/validation',
             target_size=(150, 150),
-            batch_size=16,
+            batch_size=97,
             class_mode='categorical')
 
     net = model.get_model()
@@ -48,6 +48,12 @@ def main(args):
     if args.load_model:
         print("loading weights from {}".format(args.load_model))
         net.load_weights(args.load_model)
+
+    if args.test:
+        Xtest, Ytest = next(validation_generator)
+        loss, accuracy = net.evaluate(Xtest, Ytest, verbose=False)
+        print("TEST: loss: {:.3f}, accuracy: {:.3f}".format(loss, accuracy))
+        exit()
 
     net.save_weights("models/start.hdf5")
 
@@ -82,5 +88,6 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', "--load-model", default=None)
+    parser.add_argument('-t', "--test", default=False)
     args = parser.parse_args()
     main(args)
