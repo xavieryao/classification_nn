@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug import secure_filename
-# import predict
+import predict
 
 UPLOAD_FOLDER = './uploaded'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -25,7 +25,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         res['succ'] = True
-        res['clazz'] = predict.classify(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        res['clazz'] = str(predict.classify(os.path.join(app.config['UPLOAD_FOLDER'], filename)))
     return jsonify(res)
 
 @app.route('/')
@@ -35,3 +35,6 @@ def home():
 @app.route('/<path:path>')
 def static_file(path):
     return app.send_static_file(path)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
