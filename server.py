@@ -30,7 +30,7 @@ def upload_file():
 
 @app.route('/')
 def home():
-    return """Hello World"""
+    return app.send_static_file('index.html')
 
 @app.route('/<path:path>')
 def static_file(path):
