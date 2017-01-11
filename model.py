@@ -30,3 +30,7 @@ def get_model():
         optimizer=keras.optimizers.Adam(lr=1e-5),
         metrics=['accuracy'])
     return model
+
+
+if __name__ == '__main__':
+    get_model().summary()
