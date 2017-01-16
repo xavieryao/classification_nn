@@ -1,0 +1,33 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{cite}
+\usepackage{lipsum}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{amsbsy}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\graphicspath{ {img/} }
+\bibliographystyle{apalike}
+
+\author{Peiran Yao, Yilun Wang and Zhengyan Zhang\thanks{Dept. of Computer Science and Technology, Tsinghua University. E-mail: \{ypr15, yl-wang15, zhangzhengyan14\}@mails.tsinghua.edu.cn}}
+\title{An Image Classification Service Based On Convolutional Neural Network \thanks{Final assignment of the course \emph{Big Data and Machine Intelligence}, conducted by Fundamental Industry Training Center of Tsinghua University.}}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    We trained an artificial neural network model to classify images of four distinct tourist attractions of Tsinghua University. A sixteen-layer convolutional neural network was applied and with some image augmentations the model, trained on a rather limited training dataset, has successfully reached an accuracy of approximately 80 percent.
+\end{abstract}
+\input{introduction}
+\input{classification}
+\input{futurework}
+\section{Conclusion}
+By building a functioning image classification network we have verified that, convolutional neural network, or deep neural network in general, is a powerful approach towards artificial intelligence, and would be the foundation of intelligent services and systems. Compared with traditional attempts, neural networks relieves engineers from writing ``hard code'' for each specific task by \emph{learning} through experience itself, which reflects its \emph{intelligence}. We have also recognized that large training data is essential to neural network and big data is and will for a long time be an important field of computer science and engineering.
+\section{Acknowledgements}
+We would like to give our special thanks to the instructor of this course, Dr. Zhen Chen and the T.A. Wenxun Zheng, without whose comprehensive guidance and introduction to the fascinating and charming field of deep learning we would not have reaped so much. The workstations and VPS offered generously by iCenter helped with the training and the demonstration.
+\section{Supplementary Materials}\label{sec:supplementary}
+An online demonstration of our network can be found at \url{http://img.mobsafe.cc/} where you can upload a photo and see the result. All source codes, datasets and trained models are hosted on iCenter GitLab at \url{http://gitlab.icenter.tsinghua.edu.cn/BDMI_Group1/AI_Neural_Network/}.
+\bibliography{reference}{}
+\end{document}
